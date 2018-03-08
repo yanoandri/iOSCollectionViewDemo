@@ -1,0 +1,15 @@
+PODS:
+  - Kingfisher (4.6.3)
+  - UIScrollView-InfiniteScroll (1.0.2)
+
+DEPENDENCIES:
+  - Kingfisher (~> 4.0)
+  - UIScrollView-InfiniteScroll (~> 1.0.0)
+
+SPEC CHECKSUMS:
+  Kingfisher: 98e6d5b5e807645743e8ed5ececd25d688d38452
+  UIScrollView-InfiniteScroll: c132d6d5851daff229ab4a1060ccf70a05a051c9
+
+PODFILE CHECKSUM: 06773c379bb2d6a53e6be421b889150730028b21
+
+COCOAPODS: 1.4.0

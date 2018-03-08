@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="reusableView_MovieHeaderId" id="YqD-cx-F8V" customClass="MovieHeaderView" customModule="CollectionViewDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1I2-hq-UkJ">
+                    <rect key="frame" x="20" y="8" width="335" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xr-3i-4xm">
+                    <rect key="frame" x="20" y="28" width="335" height="24"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="1I2-hq-UkJ" firstAttribute="leading" secondItem="lvf-hv-QRz" secondAttribute="leading" constant="20" id="9G4-W0-fln"/>
+                <constraint firstItem="lvf-hv-QRz" firstAttribute="trailing" secondItem="1I2-hq-UkJ" secondAttribute="trailing" constant="20" id="DQk-Qz-evf"/>
+                <constraint firstItem="1xr-3i-4xm" firstAttribute="leading" secondItem="lvf-hv-QRz" secondAttribute="leading" constant="20" id="Ed0-CU-Mfg"/>
+                <constraint firstItem="1I2-hq-UkJ" firstAttribute="top" secondItem="lvf-hv-QRz" secondAttribute="top" constant="8" id="Mf2-wf-3AR"/>
+                <constraint firstItem="lvf-hv-QRz" firstAttribute="trailing" secondItem="1xr-3i-4xm" secondAttribute="trailing" constant="20" id="NgC-7r-Qpv"/>
+                <constraint firstItem="1xr-3i-4xm" firstAttribute="top" secondItem="YqD-cx-F8V" secondAttribute="top" constant="28" id="ojJ-uG-u5c"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="lvf-hv-QRz"/>
+            <connections>
+                <outlet property="label_subTitleLabel" destination="1xr-3i-4xm" id="GK5-CA-GQV"/>
+                <outlet property="label_titleLabel" destination="1I2-hq-UkJ" id="IBC-IO-hds"/>
+            </connections>
+            <point key="canvasLocation" x="30.5" y="-52"/>
+        </collectionReusableView>
+    </objects>
+</document>
