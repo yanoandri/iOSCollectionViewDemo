@@ -8,6 +8,7 @@ target 'CollectionViewDemo' do
   # Pods for CollectionViewDemo
   pod 'Kingfisher', '~> 4.0'
   pod 'UIScrollView-InfiniteScroll','~> 1.0.0'
+  pod 'Alamofire','~> 4.0'
 
   target 'CollectionViewDemoTests' do
     inherit! :search_paths

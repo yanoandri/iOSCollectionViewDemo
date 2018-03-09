@@ -11,7 +11,8 @@ import Kingfisher
 import UIScrollView_InfiniteScroll
 
 class MovieCollectionController: UIViewController {
-
+    @IBOutlet weak var view_ViewDropImage: UIView!
+    @IBOutlet weak var constraint_viewConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionView_movieCollection: UICollectionView!
     var movieList : [Movie] = []
     var page : Int = 1
@@ -24,10 +25,29 @@ class MovieCollectionController: UIViewController {
         collectionView_movieCollection.register(UINib.init(nibName: "MovieViewCell", bundle: nil), forCellWithReuseIdentifier: "cell_MovieCell")
         
         collectionView_movieCollection.register(UINib.init(nibName: "MovieHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "reusableView_MovieHeaderId")
+        
         let view = UIRefreshControl()
         view.addTarget(self, action: #selector(MovieCollectionController.refresh(_:)), for: UIControlEvents.valueChanged)
         collectionView_movieCollection.addSubview(view)
+        
         self.refreshControl = view
+        
+        if #available(iOS 11.0, *){
+            collectionView_movieCollection.dragInteractionEnabled = true
+            collectionView_movieCollection.dragDelegate = self
+            
+            let config = UIPasteConfiguration(forAccepting: NSString.self)
+            //let config = UIPasteConfiguration(forAccepting: UIImage.self)
+            view_ViewDropImage.pasteConfiguration = config
+            
+            let drop = UIDropInteraction(delegate: self)
+            view_ViewDropImage.addInteraction(drop)
+            
+        }else{
+            //fall back on earlier version
+        }
+        
+        
         collectionView_movieCollection.addInfiniteScroll(handler: {
             (collectionView_movieCollection) in
             self.loadMovies(page: self.page + 1)
@@ -76,12 +96,103 @@ class MovieCollectionController: UIViewController {
     }
     
     @objc func refresh(_ sender: Any){
-        self.page = 1
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
                 self.refreshControl?.endRefreshing()
                 self.loadMovies(page: self.page)
         })
         self.collectionView_movieCollection.reloadData()
+    }
+}
+//MARK: - UIDropInteractionDelegate
+@available(iOS 11.0, *)
+extension MovieCollectionController : UIDropInteractionDelegate{
+    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+        return session.canLoadObjects(ofClass: NSString.self)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        return UIDropProposal(operation: UIDropOperation.copy)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        for item in session.items{
+            item.itemProvider.loadObject(ofClass: NSString.self, completionHandler: {
+                (object, error) in
+                if let object = object as? NSString{
+                    let movieId = object.integerValue
+                    DispatchQueue.main.async {
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let context = appDelegate.persistentContainer.viewContext
+                        
+                        if let movie = Movie.movie(with: movieId, in: context){
+                            movie.favorited = true
+                            appDelegate.saveContext()
+                            
+                            NotificationCenter.default.post(name: favouritesMovie, object: nil)
+                            
+                        }
+                    }
+                }
+//                if let image = object as? UIImage{
+//                    DispatchQueue.main.async {
+//                        self.imageView_DropMovieFav.image = image
+//                    }
+//                }
+            })
+        }
+    }
+}
+//MARK: - UICollectionViewDragDelegate
+@available(iOS 11.0, *)
+extension MovieCollectionController : UICollectionViewDragDelegate{
+    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
+        
+        constraint_viewConstraint.constant = 128
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
+        constraint_viewConstraint.constant = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let movie = movieList[indexPath.item]
+        let provider = NSItemProvider(object: NSString(string: "\(movie.movieId)"))
+        let item = UIDragItem(itemProvider: provider)
+        
+        return [item]
+//        if let cell = collectionView_movieCollection.cellForItem(at: indexPath) as? MovieViewCell{
+//            if let image = cell.imageview_MovieImage.image{
+//                let provider = NSItemProvider(object: image)
+//                let item = UIDragItem(itemProvider: provider)
+//
+//                return [item]
+//            }
+//        }
+//        return []
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+
+        let movie = movieList[indexPath.item]
+        let provider = NSItemProvider(object: NSString(string: "\(movie.movieId)"))
+        let item = UIDragItem(itemProvider: provider)
+        
+        return [item]
+        
+//        if let cell = collectionView_movieCollection.cellForItem(at: indexPath) as? MovieViewCell{
+//            if let image = cell.imageview_MovieImage.image{
+//                let provider = NSItemProvider(object: image)
+//                let item = UIDragItem(itemProvider: provider)
+//
+//                return [item]
+//            }
+//        }
     }
 }
 

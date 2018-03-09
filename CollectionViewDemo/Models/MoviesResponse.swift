@@ -16,7 +16,7 @@ struct MoviesResponse {
     var results: [Movie]
     
     init(data: [String:Any]){
-        page = data["page"] as! Int ?? 0
+        page = data["page"] as? Int ?? 0
         total_results = data["total_results"] as? Int ?? 0
         total_pages = data["total_pages"] as? Int ?? 0
         results = []
@@ -30,4 +30,5 @@ struct MoviesResponse {
             }
         }
     }
+    
 }

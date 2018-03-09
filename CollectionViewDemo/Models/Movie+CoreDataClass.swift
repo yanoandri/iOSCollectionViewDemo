@@ -52,4 +52,28 @@ public class Movie: NSManagedObject {
         
         return movie
     }
+    
+    class func movie(with movieId: Int, in context: NSManagedObjectContext) -> Movie?{
+        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+        request.predicate = NSPredicate(format: "movieId = \(movieId)")
+        var movies: [Movie] = []
+        do{movies = try context.fetch(request)}
+        catch{print(error.localizedDescription)}
+        return movies.first
+    }
+    
+    class func favouritedMovies(in context: NSManagedObjectContext) -> [Movie]? {
+        var movie: Movie!
+        let request: NSFetchRequest<Movie> = Movie.fetchRequest()
+        request.predicate = NSPredicate(format: "favorited = true")
+        request.sortDescriptors = [NSSortDescriptor.init(key: "releaseDate", ascending: true),
+                                   NSSortDescriptor.init(key: "title", ascending: true)
+        ]
+        var movies: [Movie] = []
+        
+        do{movies = try context.fetch(request)}
+        catch{print(error.localizedDescription)}
+        
+        return movies
+    }
 }

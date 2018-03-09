@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:CollectionViewDemo/Models/Movie+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:CollectionViewDemo.xcodeproj">
    </FileRef>
    <FileRef
