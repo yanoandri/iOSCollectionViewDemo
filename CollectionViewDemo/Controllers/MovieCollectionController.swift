@@ -11,6 +11,7 @@ import Kingfisher
 import UIScrollView_InfiniteScroll
 
 class MovieCollectionController: UIViewController {
+    @IBOutlet weak var label_DropFavouritesMovie: UILabel!
     @IBOutlet weak var view_ViewDropImage: UIView!
     @IBOutlet weak var constraint_viewConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionView_movieCollection: UICollectionView!
@@ -30,6 +31,7 @@ class MovieCollectionController: UIViewController {
         view.addTarget(self, action: #selector(MovieCollectionController.refresh(_:)), for: UIControlEvents.valueChanged)
         collectionView_movieCollection.addSubview(view)
         
+        self.label_DropFavouritesMovie.isHidden = true;
         self.refreshControl = view
         
         if #available(iOS 11.0, *){
@@ -148,6 +150,7 @@ extension MovieCollectionController : UICollectionViewDragDelegate{
     func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
         
         constraint_viewConstraint.constant = 128
+        self.label_DropFavouritesMovie.isHidden = false
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
@@ -155,6 +158,7 @@ extension MovieCollectionController : UICollectionViewDragDelegate{
     
     func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
         constraint_viewConstraint.constant = 0
+        self.label_DropFavouritesMovie.isHidden = true
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
